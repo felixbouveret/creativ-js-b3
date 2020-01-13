@@ -9,7 +9,6 @@ init = () => {
 
 
   gen = () => {
-
     for ( let i = 0; i < nb_parts; i++ ) {
 
       let angle = Math.random() * 2 * Math.PI;
@@ -18,10 +17,12 @@ init = () => {
       let dy = Math.cos(angle) * rayon;
 
       let part = {
+        id: i,
         posx: 250,
         posy: 250,
         destx: 250 + dx,
         desty: 250 + dy,
+        age: 100,
       };
 
       tab_parts.push(part);
@@ -31,6 +32,9 @@ init = () => {
   };
 
   loop = () => {
+    ctx.fillStyle = 'rgba(255,255,255, .5)'; 
+    ctx.clearRect( 0, 0, 500, 500)
+    ctx.fill();
 
     for (let i = 0; i < tab_parts.length; i++) {
       let p = tab_parts[i];
@@ -42,14 +46,17 @@ init = () => {
 
       p.posx += vx;
       p.posy += vy;
+      p.age--;
+
+      if ( p.age === 0 ) {
+        tab_parts.splice(p.id, 1)
+      }
 
       // affichage
       ctx.fillStyle = 'red';
       ctx.beginPath();
-      ctx.arc(p.posx, p.posy, .5, 0, .2 * Math.PI);
+      ctx.arc(p.posx, p.posy, 2, 1, .2 * Math.PI);
       ctx.fill();
-        
-      
     };
   
   };
